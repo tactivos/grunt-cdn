@@ -14,7 +14,8 @@ module.exports = function (grunt) {
 	var supportedTypes = {
 		html: 'html',
 		css: 'css',
-		soy: 'html'
+		soy: 'html',
+		ejs: 'html'
 	};
 
 	var reghtml = new RegExp(/(src|href)=['"]([^'"]+)['"]/ig);
@@ -38,7 +39,7 @@ module.exports = function (grunt) {
 			content = grunt.helper('cdn:' + supportedTypes[type], content, filename, relativeTo);
 
 			// write the contents to destination
-			var filePath = dest ? path.join(dest, path.basename(filename)) : file;
+			var filePath = dest ? path.join(dest, path.basename(filename)) : filename;
 			grunt.file.write(filePath, content);
 		});
 	});
