@@ -81,7 +81,7 @@ module.exports = function (grunt) {
 			return;
 		}
 
-		var src = path.join(relativeTo, resourceUrl.pathname);
+		var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
 
 		return grunt.template.process("<%= url %><%= search %>", {
 			url: src,
