@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 		ejs: 'html'
 	};
 
-	var reghtml = new RegExp(/<[^a].*\b(?:href|src)\b.*['"]([\/][^'"]+)['"].*>/ig);
+	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b.*['"]([\/][^'"]+)['"]\/?>/ig);
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
