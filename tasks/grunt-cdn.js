@@ -14,10 +14,11 @@ module.exports = function (grunt) {
 	var supportedTypes = {
 		html: 'html',
 		css: 'css',
-		soy: 'html'
+		soy: 'html',
+		ejs: 'html'
 	};
 
-	var reghtml = new RegExp(/(src|href)=['"]([^'"]+)['"]/ig);
+	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)\b.*['"]([\/]\w[^'"]+)['"].*\/?>/ig);
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
@@ -38,17 +39,14 @@ module.exports = function (grunt) {
 			content = grunt.helper('cdn:' + supportedTypes[type], content, filename, relativeTo);
 
 			// write the contents to destination
-			var filePath = dest ? path.join(dest, path.basename(filename)) : file;
+			var filePath = dest ? path.join(dest, path.basename(filename)) : filename;
 			grunt.file.write(filePath, content);
 		});
 	});
 
 	grunt.registerHelper('cdn:html', function (content, filename, relativeTo) {
-		return content.replace(reghtml, function (attribute, type, resource) {
-			return grunt.template.process("<%= type %>=\"<%= url %>\"", {
-				type: type,
-				url: (cdnUrl(resource, filename, relativeTo) || resource)
-			});
+		return content.replace(reghtml, function (match, resource) {
+			return match.replace(resource, cdnUrl(resource, filename, relativeTo));
 		});
 	});
 
@@ -80,7 +78,7 @@ module.exports = function (grunt) {
 			return;
 		}
 
-		var src = path.join(relativeTo, resourceUrl.pathname);
+		var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
 
 		return grunt.template.process("<%= url %><%= search %>", {
 			url: src,
