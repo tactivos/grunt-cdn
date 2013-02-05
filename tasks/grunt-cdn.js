@@ -57,7 +57,7 @@ module.exports = function (grunt) {
 
 			if(!url) return attr;
 
-			return grunt.template.process("url(<%= url %>)", {
+			return grunt.template.process("url('<%= url %>')", {
 				url: url
 			});
 		});
@@ -80,8 +80,9 @@ module.exports = function (grunt) {
 
 		var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
 
-		return grunt.template.process("<%= url %><%= search %>", {
+		return grunt.template.process("<%= url %><%= search %><%= hash %>", {
 			url: src,
+			hash: (resourceUrl.hash || ''), // keep the original hash too
 			search: (resourceUrl.search || '') // keep the original querystring
 		});
 	}
