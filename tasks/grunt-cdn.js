@@ -38,6 +38,8 @@ module.exports = function(grunt) {
 				return;
 			}
 
+            grunt.log.subhead('cdn:' + type + ' - ' + filepath);
+
 			if (type == "html") {
 				content = html.call(self, content, filepath, relativeTo);
 			} else if (type === "css") {
@@ -91,6 +93,7 @@ module.exports = function(grunt) {
 			return;
 		}
 		var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
+        grunt.log.writeln('Changing ' + resourceUrl.pathname.cyan + ' -> ' + src.cyan);
 		return grunt.template.process("<%= url %><%= search %><%= hash %>", {
 			data: {
 				url: src,
