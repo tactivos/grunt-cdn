@@ -77,12 +77,12 @@ module.exports = function(grunt) {
 		// skip those absolute urls
 		if (resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
 			grunt.verbose.writeln("skipping " + resource + " it's an absolute (or data) URL");
-			return;
+			return resource;
 		}
 
 		var resourceUrl = url.parse(resource);
 
-        // if flattern is true then we will convert all paths to absolute here!
+        // if flatten is true then we will convert all paths to absolute here!
         if (options.flatten) {
             resourceUrl.pathname = '/' + resourceUrl.pathname.replace(/^(\.\.?\/)+/, '');
         }
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
 		// if path is relative let it be
 		if (!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
 			grunt.verbose.writeln("skipping " + resource + " it's a relative URL");
-			return;
+			return resource;
 		}
 		var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
         grunt.log.writeln('Changing ' + resourceUrl.pathname.cyan + ' -> ' + src.cyan);
