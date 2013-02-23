@@ -1,6 +1,7 @@
 [Grunt][grunt] plugin for properly prepending a CDN url to those assets referenced with absolute paths (but not URLs)
 
 ## Getting Started
+This plugin requires Grunt `~0.4.0`
 
 Install this grunt plugin next to your project's gruntfile with: `npm install grunt-cdn`
 
@@ -15,13 +16,17 @@ Then specify your config:
 ```javascript
     grunt.initConfig({
         cdn: {
+            options: {
+                /** @required - root URL of your CDN (may contains sub-paths as shown below) */
+                cdn: 'http://cdn.cloudfront.net/container/',
+                /** @optional  - if provided both absolute and relative paths will be converted */
+                flatten: false
+            },
             dist: {
                 /** @required  - string (or array of) including grunt glob variables */
                 src: ['./static/*.html', './static/*.css', './static/*.soy'],
                 /** @optional  - if provided a copy will be stored without modifying original file */
-                dest: './dist/static/',
-                /** @required - root URL of your CDN (may contains sub-paths as shown below) */
-                cdn: 'http://cdn.cloudfront.net/container/'
+                dest: './dist/static/'
             }
         }
     });
