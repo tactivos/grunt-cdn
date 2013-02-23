@@ -27,8 +27,10 @@ module.exports = function(grunt) {
 		var dest = this.data.dest;
 		var options = this.options();
 		var relativeTo = options.cdn;
+        var self = this;
+
 		files.forEach(function(filepath) {
-                        var type = path.extname(filepath).replace(/^\./, '');
+            var type = path.extname(filepath).replace(/^\./, '');
 			content = grunt.file.read(filepath);
 			content = content.toString(); // sometimes css is interpreted as object
 			if (!supportedTypes[type]) { //next
@@ -37,9 +39,9 @@ module.exports = function(grunt) {
 			}
 
 			if (type == "html") {
-				content = html(content, filepath, relativeTo);
+				content = html.call(self, content, filepath, relativeTo);
 			} else if (type === "css") {
-				content = css(content, filepath, relativeTo);
+				content = css.call(self, content, filepath, relativeTo);
 			}
 			// write the contents to destination
 			grunt.file.write(filepath, content);
@@ -47,15 +49,17 @@ module.exports = function(grunt) {
 	});
 
 	function html(content, filename, relativeTo) {
+        var self = this;
 		return content.replace(reghtml, function(match, resource) {
-			return match.replace(resource, cdnUrl(resource, filename, relativeTo));
+			return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
 		});
 	};
 
 	function css(content, filename, relativeTo) {
+        var self = this;
 		return content.replace(regcss, function(attr, resource) {
 			resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
-			var url = cdnUrl(resource, filename, relativeTo);
+			var url = cdnUrl.call(self, resource, filename, relativeTo);
 			if (!url) return attr;
 
 			return grunt.template.process("url('<%= url %>')", {
@@ -67,6 +71,7 @@ module.exports = function(grunt) {
 	};
 
 	function cdnUrl(resource, filename, relativeTo) {
+        var options = this.options();
 		// skip those absolute urls
 		if (resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
 			grunt.verbose.writeln("skipping " + resource + " it's an absolute (or data) URL");
@@ -74,6 +79,11 @@ module.exports = function(grunt) {
 		}
 
 		var resourceUrl = url.parse(resource);
+
+        // if flattern is true then we will convert all paths to absolute here!
+        if (options.flatten) {
+            resourceUrl.pathname = '/' + resourceUrl.pathname.replace(/^(\.\.?\/)+/, '');
+        }
 
 		// if path is relative let it be
 		if (!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
