@@ -5,7 +5,7 @@ This plugin requires Grunt `~0.4.0`
 
 Install this grunt plugin next to your project's gruntfile with: `npm install grunt-cdn`
 
-Then add this line to your project's `grunt.js` gruntfile:
+Then add this line to your project's `Gruntfile.js` gruntfile:
 
 ```javascript
 grunt.loadNpmTasks('grunt-cdn');
@@ -68,10 +68,8 @@ As you can see we maintain the "container" pathname in this case, and we also ke
 query strings. This task is really handy if you upload stuff from your CI to make it transparent
 to developers.
 
-**NOTE**: This task only works with "absolute" paths. We consider paths starting with
-. (or ..) as relative, and with / absolute. We're using the same aproach as the *NIX file-system.
-
 ## Release History
+* 0.1.3 Grunt 0.4 ready
 * 0.1.0 Initial Release
 
 [grunt]: https://github.com/cowboy/grunt
