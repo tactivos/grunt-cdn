@@ -24,9 +24,7 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
 		var files = this.filesSrc;
-		var dest = this.data.dest;
-		var options = this.options();
-		var relativeTo = options.cdn;
+		var relativeTo = this.data.cdn;
         var self = this;
 
 		files.forEach(function(filepath) {
@@ -92,7 +90,19 @@ module.exports = function(grunt) {
 			grunt.verbose.writeln("skipping " + resource + " it's a relative URL");
 			return resource;
 		}
-		var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
+
+        // if stripDirs then loop through and strip
+        if (options.stripDirs) {
+            if (typeof options.stripDirs === 'string') {
+                options.stripDirs = [options.stripDirs];
+            }
+            options.stripDirs.forEach(function(dirname) {
+                var re = new RegExp('\/('+dirname+'\/)', 'g');
+                resourceUrl.pathname = resourceUrl.pathname.replace(re, '');
+            });
+        }
+
+        var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
         grunt.log.writeln('Changing ' + resourceUrl.pathname.cyan + ' -> ' + src.cyan);
 		return grunt.template.process("<%= url %><%= search %><%= hash %>", {
 			data: {
