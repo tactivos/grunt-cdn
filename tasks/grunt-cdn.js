@@ -39,9 +39,9 @@ module.exports = function(grunt) {
 
             grunt.log.subhead('cdn:' + type + ' - ' + filepath);
 
-			if (type == "html") {
+			if (supportedTypes[type] == "html") {
 				content = html.call(self, content, filepath, relativeTo);
-			} else if (type === "css") {
+			} else if (supportedTypes[type] === "css") {
 				content = css.call(self, content, filepath, relativeTo);
 			}
 			// write the contents to destination
