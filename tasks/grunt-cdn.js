@@ -11,29 +11,33 @@ module.exports = function(grunt) {
 	var path = require('path');
 	var crypto = require('crypto');
 
-	var supportedTypes = {
-		html: 'html',
-		css: 'css',
-		soy: 'html',
-		ejs: 'html',
-		hbs: 'html'
-	};
-
 	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)=['"]([^'"\{]+)['"].*\/?>/ig);
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
-		var files = this.filesSrc;
-		var relativeTo = this.data.cdn;
-        var self = this;
+    	var self = this;
+    	var files = this.filesSrc;
+    	var options = this.options();
+		var relativeTo = options.cdn;
+    	var supportedTypes = {
+      		html: 'html',
+      		css: 'css',
+      		soy: 'html',
+      		ejs: 'html',
+      		hbs: 'html'
+    	};
+
+    	for(key in options.supportedTypes){
+      		supportedTypes[key] = options.supportedTypes[key]
+    	};
 
 		files.forEach(function(filepath) {
             var type = path.extname(filepath).replace(/^\./, '');
 			content = grunt.file.read(filepath);
 			content = content.toString(); // sometimes css is interpreted as object
 			if (!supportedTypes[type]) { //next
-				console.warn("unrecognized extension: <%= type %> - <%= filepath %>");
+				console.warn("unrecognized extension:" + type + " - " + filepath);
 				return;
 			}
 
