@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 			content = grunt.file.read(filepath);
 			content = content.toString(); // sometimes css is interpreted as object
 			if (!supportedTypes[type]) { //next
-				console.warn("unrecognized extension: <%= type %> - <%= filepath %>");
+				console.warn("unrecognized extension:" + type + " - " + filepath);
 				return;
 			}
 
