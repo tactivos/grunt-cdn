@@ -21,6 +21,10 @@ Then specify your config:
                 cdn: 'http://cdn.cloudfront.net/container/',
                 /** @optional  - if provided both absolute and relative paths will be converted */
                 flatten: false
+                /** @optional  - if provided will be added to the
+default supporting types */
+	        	supportedTypes: { 'jst': 'html' },
+
             },
             dist: {
                 /** @required  - string (or array of) including grunt glob variables */
