@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             });
         }
 
-        var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
+        var src = path.join(relativeTo, resourceUrl.pathname).replace(/\\/g, '/').replace(/:\/(\w)/, '://$1');
 
         // if using protocol-relative CDN URL re-add the leading double-slash removed by path.join
         if (relativeTo.match(/^\/\/\w/)) {
