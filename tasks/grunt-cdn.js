@@ -87,7 +87,7 @@ module.exports = function(grunt) {
         }
 
 		// if path is relative let it be
-		if (!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
+		if (!options.flatten && !grunt.file.isPathAbsolute(resourceUrl.pathname)) {
 			grunt.verbose.writeln("skipping " + resource + " it's a relative URL");
 			return resource;
 		}
