@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
 		var files = this.filesSrc;
-		var relativeTo = this.data.cdn;
+		var relativeTo = this.options().cdn;
         var self = this;
 
 		files.forEach(function(filepath) {
