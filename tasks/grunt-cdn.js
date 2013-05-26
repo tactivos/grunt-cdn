@@ -86,6 +86,20 @@ module.exports = function(grunt) {
             resourceUrl.pathname = '/' + resourceUrl.pathname.replace(/^(\.\.?\/)+/, '');
         }
 
+        if (options.match) {
+            if (typeof options.match === 'function') {
+                if (!options.match(resourceUrl, resource)) {
+                    grunt.verbose.writeln("skipping " + resource + ", not matched");
+                    return resource;
+                }
+            } else {
+                if (!resourceUrl.pathname.match(options.match)) {
+                    grunt.verbose.writeln("skipping " + resource + ", not matched");
+                    return resource;
+                }
+            }
+        }
+
 		// if path is relative let it be
 		if (!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
 			grunt.verbose.writeln("skipping " + resource + " it's a relative URL");
