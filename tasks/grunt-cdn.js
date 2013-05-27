@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
 		var files = this.filesSrc;
-		var relativeTo = this.data.cdn;
+		var relativeTo = this.options().cdn;
         var self = this;
 
 		files.forEach(function(filepath) {
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
         }
 
 		// if path is relative let it be
-		if (!grunt.file.isPathAbsolute(resourceUrl.pathname)) {
+		if (!options.flatten && !grunt.file.isPathAbsolute(resourceUrl.pathname)) {
 			grunt.verbose.writeln("skipping " + resource + " it's a relative URL");
 			return resource;
 		}
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             });
         }
 
-        var src = path.join(relativeTo, resourceUrl.pathname).replace(/:\/(\w)/, '://$1');
+        var src = path.join(relativeTo, resourceUrl.pathname).replace(/\\/g, '/').replace(/:\/(\w)/, '://$1');
 
         // if using protocol-relative CDN URL re-add the leading double-slash removed by path.join
         if (relativeTo.match(/^\/\/\w/)) {
