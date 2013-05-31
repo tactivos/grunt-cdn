@@ -20,7 +20,9 @@ Then specify your config:
                 /** @required - root URL of your CDN (may contains sub-paths as shown below) */
                 cdn: 'http://cdn.cloudfront.net/container/',
                 /** @optional  - if provided both absolute and relative paths will be converted */
-                flatten: false
+                flatten: false,
+                /** @optional  - if provided will be added to the default supporting types */
+                supportedTypes: { 'phtml': 'html' }
             },
             dist: {
                 /** @required  - string (or array of) including grunt glob variables */

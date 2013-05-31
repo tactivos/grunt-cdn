@@ -25,15 +25,28 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
 		var files = this.filesSrc;
+        var options = this.options();
 		var relativeTo = this.options().cdn;
         var self = this;
+
+        var supportedTypes = {
+            html: 'html',
+            css: 'css',
+            soy: 'html',
+            ejs: 'html',
+            hbs: 'html'
+        };
+
+        for(var key in options.supportedTypes){
+            supportedTypes[key] = options.supportedTypes[key];
+        }
 
 		files.forEach(function(filepath) {
             var type = path.extname(filepath).replace(/^\./, '');
 			content = grunt.file.read(filepath);
 			content = content.toString(); // sometimes css is interpreted as object
 			if (!supportedTypes[type]) { //next
-				console.warn("unrecognized extension: <%= type %> - <%= filepath %>");
+				console.warn("unrecognized extension:" + type + " - " + filepath);
 				return;
 			}
 
