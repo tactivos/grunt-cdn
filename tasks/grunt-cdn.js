@@ -16,10 +16,11 @@ module.exports = function(grunt) {
 		css: 'css',
 		soy: 'html',
 		ejs: 'html',
-		hbs: 'html'
+		hbs: 'html',
+		less: 'less'
 	};
 
-	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)=['"]([^'"\{]+)['"].*\/?>/ig);
+	var reghtml = new RegExp(/<(?:img|link|source|script|input)[^\>]+(?:href|src)=['"]([^'"\{]+)['"]/ig);
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
@@ -34,7 +35,8 @@ module.exports = function(grunt) {
             css: 'css',
             soy: 'html',
             ejs: 'html',
-            hbs: 'html'
+            hbs: 'html',
+            less: 'less'
         };
 
         for(var key in options.supportedTypes){
@@ -54,7 +56,7 @@ module.exports = function(grunt) {
 
 			if (supportedTypes[type] == "html") {
 				content = html.call(self, content, filepath, relativeTo);
-			} else if (supportedTypes[type] === "css") {
+			} else if (supportedTypes[type] === "css" || supportedTypes[type] === "less") {
 				content = css.call(self, content, filepath, relativeTo);
 			}
 			// write the contents to destination
