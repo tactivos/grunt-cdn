@@ -19,7 +19,10 @@ module.exports = function(grunt) {
 		hbs: 'html'
 	};
 
-	var reghtml = new RegExp(/<(?:img|link|source|script).*\b(?:href|src)=['"]([^'"\{]+)['"].*\/?>/ig);
+	var reghtmls = [
+		new RegExp(/<(?:img|link|source|script).*\b(?:href|src)=['"]([^'"\{]+)['"].*\/?>/ig),
+		new RegExp(/<script.*\bdata-main=['"]([^'"\{]+)['"].*\/?>/ig)
+	];
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
@@ -64,9 +67,11 @@ module.exports = function(grunt) {
 
 	function html(content, filename, relativeTo) {
         var self = this;
-		return content.replace(reghtml, function(match, resource) {
-			return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
-		});
+		return reghtmls.reduce(function (value, reghtml) {
+			return value.replace(reghtml, function(match, resource) {
+			  return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
+			});
+		}, content);
 	};
 
 	function css(content, filename, relativeTo) {
