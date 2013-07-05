@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
-		var files = this.filesSrc;
+		var files = this.files;
         var options = this.options();
 		var relativeTo = this.options().cdn;
         var self = this;
@@ -44,24 +44,26 @@ module.exports = function(grunt) {
             supportedTypes[key] = options.supportedTypes[key];
         }
 
-		files.forEach(function(filepath) {
-            var type = path.extname(filepath).replace(/^\./, '');
-			content = grunt.file.read(filepath);
-			content = content.toString(); // sometimes css is interpreted as object
-			if (!supportedTypes[type]) { //next
-				console.warn("unrecognized extension:" + type + " - " + filepath);
-				return;
-			}
-
-            grunt.log.subhead('cdn:' + type + ' - ' + filepath);
-
-			if (supportedTypes[type] == "html") {
-				content = html.call(self, content, filepath, relativeTo);
-			} else if (supportedTypes[type] === "css") {
-				content = css.call(self, content, filepath, relativeTo);
-			}
-			// write the contents to destination
-			grunt.file.write(filepath, content);
+		files.forEach(function(file) {
+      file.src.forEach(function (filepath) {
+        var type = path.extname(filepath).replace(/^\./, ''),
+            filename = path.basename(filepath),
+            destfile = file.dest ? path.join(file.dest, filename) : filepath,
+            content = grunt.file.read(filepath);
+        content = content.toString(); // sometimes css is interpreted as object
+        if (!supportedTypes[type]) { //next
+          console.warn("unrecognized extension:" + type + " - " + filepath);
+          return;
+        }
+        grunt.log.subhead('cdn:' + type + ' - ' + filepath);
+        if (supportedTypes[type] == "html") {
+          content = html.call(self, content, filepath, relativeTo);
+        } else if (supportedTypes[type] === "css") {
+          content = css.call(self, content, filepath, relativeTo);
+        }
+        // write the contents to destination
+        grunt.file.write(destfile, content);
+      });
 		});
 	});
 
