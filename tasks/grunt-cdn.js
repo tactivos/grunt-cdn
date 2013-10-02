@@ -22,8 +22,11 @@ module.exports = function (grunt) {
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
 
+	var ignorePath = null;
+
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function () {
 		var relativeTo = this.data.cdn;
+		ignorePath = this.data.ignorePath;
 		var files = grunt.file.expandFiles(this.file.src);
 		var dest = this.file.dest;
 
@@ -46,6 +49,11 @@ module.exports = function (grunt) {
 
 	grunt.registerHelper('cdn:html', function (content, filename, relativeTo) {
 		return content.replace(reghtml, function (match, resource) {
+
+			if(ignorePath && resource.match(ignorePath)) {
+				return resource;
+			}
+
 			return match.replace(resource, cdnUrl(resource, filename, relativeTo));
 		});
 	});
@@ -53,6 +61,11 @@ module.exports = function (grunt) {
 	grunt.registerHelper('cdn:css', function (content, filename, relativeTo) {
 		return content.replace(regcss, function (attr, resource) {
 			resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
+
+			if(ignorePath && resource.match(ignorePath)) {
+				return resource;
+			}
+
 			var url = cdnUrl(resource, filename, relativeTo);
 
 			if(!url) return attr;
