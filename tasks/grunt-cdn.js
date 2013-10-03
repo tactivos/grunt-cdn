@@ -25,12 +25,14 @@ module.exports = function(grunt) {
 	];
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
+	var ignorePath = null;
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
+        var self = this;
 		var files = this.files;
         var options = this.options();
 		var relativeTo = this.options().cdn;
-        var self = this;
+		ignorePath = this.options().ignorePath;
 
         var supportedTypes = {
             html: 'html',
@@ -45,25 +47,29 @@ module.exports = function(grunt) {
         }
 
 		files.forEach(function(file) {
-      file.src.forEach(function (filepath) {
-        var type = path.extname(filepath).replace(/^\./, ''),
-            filename = path.basename(filepath),
-            destfile = file.dest ? path.join(file.dest, filename) : filepath,
-            content = grunt.file.read(filepath);
-        content = content.toString(); // sometimes css is interpreted as object
-        if (!supportedTypes[type]) { //next
-          console.warn("unrecognized extension:" + type + " - " + filepath);
-          return;
-        }
-        grunt.log.subhead('cdn:' + type + ' - ' + filepath);
-        if (supportedTypes[type] == "html") {
-          content = html.call(self, content, filepath, relativeTo);
-        } else if (supportedTypes[type] === "css") {
-          content = css.call(self, content, filepath, relativeTo);
-        }
-        // write the contents to destination
-        grunt.file.write(destfile, content);
-      });
+			file.src.forEach(function (filepath) {
+				var type = path.extname(filepath).replace(/^\./, ''),
+					filename = path.basename(filepath),
+					destfile = file.dest ? path.join(file.dest, filename) : filepath,
+					content = grunt.file.read(filepath);
+					content = content.toString(); // sometimes css is interpreted as object
+
+				if (!supportedTypes[type]) { //next
+					console.warn("unrecognized extension:" + type + " - " + filepath);
+					return;
+				}
+
+				grunt.log.subhead('cdn:' + type + ' - ' + filepath);
+
+				if (supportedTypes[type] == "html") {
+					content = html.call(self, content, filepath, relativeTo);
+				} else if (supportedTypes[type] === "css") {
+					content = css.call(self, content, filepath, relativeTo);
+				}
+
+				// write the contents to destination
+				grunt.file.write(destfile, content);
+			});
 		});
 	});
 
@@ -71,10 +77,10 @@ module.exports = function(grunt) {
         var self = this;
 		return reghtmls.reduce(function (value, reghtml) {
 			return value.replace(reghtml, function(match, resource) {
-			  return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
+				return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
 			});
 		}, content);
-	};
+	}
 
 	function css(content, filename, relativeTo) {
         var self = this;
@@ -89,13 +95,17 @@ module.exports = function(grunt) {
 				}
 			});
 		});
-	};
+	}
 
 	function cdnUrl(resource, filename, relativeTo) {
         var options = this.options();
 		// skip those absolute urls
 		if (resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
 			grunt.verbose.writeln("skipping " + resource + " it's an absolute (or data) URL");
+			return resource;
+		}
+
+		if(ignorePath && resource.match(ignorePath)) {
 			return resource;
 		}
 
