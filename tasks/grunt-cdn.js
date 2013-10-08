@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 	];
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
-  var regcssfilter = new RegExp(/filter\:.*src=['"]([^'"\{]+)['"]/ig);
+  var regcssfilter = new RegExp(/filter[\w\.\:]+\(src=['"]([^'"]+)['"]/ig);
 	var ignorePath = null;
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
