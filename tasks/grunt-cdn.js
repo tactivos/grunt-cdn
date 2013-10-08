@@ -110,6 +110,10 @@ module.exports = function(grunt) {
 		}
 
 		var resourceUrl = url.parse(resource);
+    
+    if(resourceUrl.prototcol === "about") {
+      return resource;
+    }
 
         // if flatten is true then we will convert all paths to absolute here!
         if (options.flatten) {
