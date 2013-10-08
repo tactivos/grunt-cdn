@@ -111,7 +111,7 @@ module.exports = function(grunt) {
 
 		var resourceUrl = url.parse(resource);
     
-    if(resourceUrl.prototcol === "about") {
+    if(resourceUrl.protocol === "about:") {
       return resource;
     }
 
