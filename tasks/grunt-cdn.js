@@ -25,6 +25,7 @@ module.exports = function(grunt) {
 	];
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
+  var regcssfilter = new RegExp(/filter[\w\.\:]+\(src=['"]([^'"]+)['"]/ig);
 	var ignorePath = null;
 
 	grunt.registerMultiTask('cdn', "Properly prepends a CDN url to those assets referenced with absolute paths (but not URLs)", function() {
@@ -83,10 +84,14 @@ module.exports = function(grunt) {
 	}
 
 	function css(content, filename, relativeTo) {
-        var self = this;
+        var self = this,
+            getUrl = function (resource) {
+        			resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
+        			var url = cdnUrl.call(self, resource, filename, relativeTo);
+              return url;
+            };
 		return content.replace(regcss, function(attr, resource) {
-			resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
-			var url = cdnUrl.call(self, resource, filename, relativeTo);
+			var url = getUrl(resource);
 			if (!url) return attr;
 
 			return grunt.template.process("url('<%= url %>')", {
@@ -94,6 +99,11 @@ module.exports = function(grunt) {
 					url: url
 				}
 			});
+		}).replace(regcssfilter, function (rule, resource) {
+			var url = getUrl(resource);
+      if (!url) return rule;
+      
+      return rule.replace(resource, url);
 		});
 	}
 
@@ -110,6 +120,10 @@ module.exports = function(grunt) {
 		}
 
 		var resourceUrl = url.parse(resource);
+    
+    if(resourceUrl.protocol === "about:") {
+      return resource;
+    }
 
         // if flatten is true then we will convert all paths to absolute here!
         if (options.flatten) {
