@@ -20,8 +20,8 @@ module.exports = function(grunt) {
 	};
 
 	var reghtmls = [
-		new RegExp(/<(?:img|link|source|script).*\b(?:href|src)=['"]([^'"\{]+)['"].*\/?>/ig),
-		new RegExp(/<script.*\bdata-main=['"]([^'"\{]+)['"].*\/?>/ig)
+		new RegExp(/<(?:img|link|source|script).*\b(?:href|src)=['"](?!.*\/\/)([^'"\{]+)['"].*\/?>/ig),
+		new RegExp(/<script.*\bdata-main=['"](?!.*\/\/)([^'"\{]+)['"].*\/?>/ig)
 	];
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
@@ -77,9 +77,13 @@ module.exports = function(grunt) {
 	function html(content, filename, relativeTo) {
         var self = this;
 		return reghtmls.reduce(function (value, reghtml) {
-			return value.replace(reghtml, function(match, resource) {
+                  while(reghtml.exec(value)!==null) {
+			value = value.replace(reghtml, function(match, resource) {
 				return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
 			});
+
+                  }
+                  return value;
 		}, content);
 	}
 
