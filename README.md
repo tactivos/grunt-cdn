@@ -22,7 +22,11 @@ Then specify your config:
                 /** @optional  - if provided both absolute and relative paths will be converted */
                 flatten: false,
                 /** @optional  - if provided will be added to the default supporting types */
-                supportedTypes: { 'phtml': 'html' }
+                supportedTypes: { 'phtml': 'html' },
+                /** @optional  - if provided regular expressions below will be added to the regular expression stack for 'html' types */
+                reghtmls: [
+                    /<(?:ng-include).*\b(?:src)="'(?!.*\/\/)([^'"\{]+)'".*\/?>/ig
+                ]
             },
             dist: {
                 /** @required  - string (or array of) including grunt glob variables */
