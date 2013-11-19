@@ -19,11 +19,20 @@ module.exports = function(grunt) {
 		hbs: 'html'
 	};
 
-	var reghtmls = [
-		new RegExp(/<(?:img|source|script).*\b(?:src)=['"](?!.*\/\/)([^'"\{]+)['"].*\/?>/ig),
-		new RegExp(/<(?:link).*\b(?:href)=['"](?!.*\/\/)([^'"\{]+)['"].*\/?>/ig),
-		new RegExp(/<script.*\bdata-main=['"](?!.*\/\/)([^'"\{]+)['"].*\/?>/ig)
-	];
+        var htmlsplitters = [
+          {
+            splitters: ['<img ', '<source ', '<script '],
+            rgx: new RegExp(/(?:src)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/ig)
+          },
+          {
+            splitters: ['<link '],
+            rgx: new RegExp(/(?:href)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/ig)
+          },
+          {
+            splitters: ['<script '],
+            rgx: new RegExp(/data-main=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/ig)
+          }
+        ];
 
 	var regcss = new RegExp(/url\(([^)]+)\)/ig);
   var regcssfilter = new RegExp(/filter[\w\.\:]+\(src=['"]([^'"]+)['"]/ig);
@@ -77,15 +86,18 @@ module.exports = function(grunt) {
 
 	function html(content, filename, relativeTo) {
         var self = this;
-		return reghtmls.reduce(function (value, reghtml) {
-                  while(reghtml.exec(value)!==null) {
-			value = value.replace(reghtml, function(match, resource) {
-				return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
-			});
-
-                  }
-                  return value;
-		}, content);
+	  return htmlsplitters.reduce(function (value, htmlsplitter) {
+            for (i=0; i<htmlsplitter.splitters.length; i++) {
+              value = value.split(htmlsplitter.splitters[i]);
+              for (j=1; j<value.length; j++) {
+                value[j] = value[j].replace(htmlsplitter.rgx, function(match, resource) {
+		  return match.replace(resource, cdnUrl.call(self, resource, filename, relativeTo));
+                });
+              }
+              value = value.join(htmlsplitter.splitters[i]);
+            }
+            return value;
+	  }, content);
 	}
 
 	function css(content, filename, relativeTo) {
