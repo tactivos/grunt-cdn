@@ -22,15 +22,15 @@ module.exports = function(grunt) {
   var htmlsplitters = [
     {
       splitters: ['<img ', '<source ', '<script '],
-      rgx: new RegExp(/(?:src)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/ig)
+      rgx: new RegExp(/(?:src)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     },
     {
       splitters: ['<link '],
-      rgx: new RegExp(/(?:href)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/ig)
+      rgx: new RegExp(/(?:href)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     },
     {
       splitters: ['<script '],
-      rgx: new RegExp(/data-main=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/ig)
+      rgx: new RegExp(/data-main=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     }
   ];
 
