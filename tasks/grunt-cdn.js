@@ -22,15 +22,15 @@ module.exports = function(grunt) {
   var htmlsplitters = [
     {
       splitters: ['<img ', '<source ', '<script '],
-      rgx: new RegExp(/(?:src)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/(?:src)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>$/i)
     },
     {
       splitters: ['<link '],
-      rgx: new RegExp(/(?:href)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/(?:href)=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>$/i)
     },
     {
       splitters: ['<script '],
-      rgx: new RegExp(/data-main=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/data-main=['"](?!\w+?:?\/\/)([^'"\{]+)['"].*\/?>$/i)
     }
   ];
 
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
     }).replace(regcssfilter, function (rule, resource) {
       var url = getUrl(resource);
       if (!url) return rule;
-      
+
       return rule.replace(resource, url);
     });
   }
@@ -137,7 +137,7 @@ module.exports = function(grunt) {
     }
 
     var resourceUrl = url.parse(resource);
-    
+
     if(resourceUrl.protocol === "about:") {
       return resource;
     }
