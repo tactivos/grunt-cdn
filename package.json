@@ -18,7 +18,16 @@
     "node": "*"
   },
   "devDependencies": {
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.0",
+    "chai": "~1.8.1"
   },
-  "keywords": ["gruntplugin", "cdn"]
+  "keywords": [
+    "gruntplugin",
+    "cdn"
+  ],
+  "jshintConfig": {
+    "indent": 2,
+    "quotmark": "single",
+    "node": true
+  }
 }
