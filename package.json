@@ -24,10 +24,5 @@
   "keywords": [
     "gruntplugin",
     "cdn"
-  ],
-  "jshintConfig": {
-    "indent": 2,
-    "quotmark": "single",
-    "node": true
-  }
+  ]
 }

@@ -124,27 +124,26 @@ module.exports = function(grunt) {
     var self = this,
     getUrl = function (resource) {
       resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
-      var url = cdnUrl.call(self, resource, filename, relativeTo);
-      return url;
+      return cdnUrl.call(self, resource, filename, relativeTo);
     };
     return content.replace(regcss, function(attr, resource) {
-      var url = getUrl(resource);
-      if (!url) {
+      var ret = getUrl(resource);
+      if (!ret) {
         return attr;
       }
 
       return grunt.template.process("url('<%= url %>')", {
-  data: {
-    url: url
-  }
+        data: {
+          url: ret
+        }
       });
     }).replace(regcssfilter, function (rule, resource) {
-      var url = getUrl(resource);
-      if (!url) {
+      var ret = getUrl(resource);
+      if (!ret) {
         return rule;
       }
       
-      return rule.replace(resource, url);
+      return rule.replace(resource, ret);
     });
   }
   
