@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git://github.com/tactivos/grunt-cdn.git"
   },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -R spec ./tests"
+  },
   "bugs": {
     "url": "https://github.com/tactivos/grunt-cdn/issues"
   },
@@ -23,7 +26,8 @@
     "cheerio": "~0.12.4",
     "sinon": "~1.7.3",
     "underscore": "~1.5.2",
-    "css-parse": "~1.6.0"
+    "css-parse": "~1.6.0",
+    "mocha": "~1.15.1"
   },
   "keywords": [
     "gruntplugin",
