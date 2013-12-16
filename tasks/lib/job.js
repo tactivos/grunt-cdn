@@ -103,11 +103,11 @@ Job.prototype._replace = function (resource) {
     src = src.replace(/^\/(\w)/, '\/\/$1');
   }
   
-  self.emit("entry", {
+  self.emit('entry', {
     before: resourceUrl.pathname,
     after: src
   });
-  return grunt.template.process("<%= url %><%= search %><%= hash %>", {
+  return grunt.template.process('<%= url %><%= search %><%= hash %>', {
     data: {
     url: src,
     hash: (resourceUrl.hash || ''), // keep the original hash too
@@ -117,7 +117,10 @@ Job.prototype._replace = function (resource) {
 };
 
 Job.prototype.run = function () {
-  
+  var self = this;
+  return self.buffer.split('\n').map(function(item) {
+    return self._replace(item);
+  }).join('\n');
 };
 
 

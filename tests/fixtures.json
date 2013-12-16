@@ -1,0 +1,6 @@
+{
+  "image1": "<img src='/pic.png' />",
+  "str1": "<img src='/' />",
+  "simple1": "/link1\n/link2",
+  "simple2": "http://http.is.ignored.com\nhttps://https.is.ignored.com"
+}

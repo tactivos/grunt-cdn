@@ -2,32 +2,43 @@
 
 var expect = require('chai').expect,
     cheerio = require('cheerio'),
+    sinon = require('sinon'),
     url = require('url'),
-    HTMLJob = require('../tasks/lib/html_job'),
-    CSSJob = require('../tasks/lib/css_job'),
-    Snippets = {
-      'image1': '<img src="/pic.png" />'
-    };
+    Job = require('../tasks/lib/job');
 
-describe('Job Bascis', function() {
+describe('Job', function() {
   
   var globalConfig = {
-    cdn: "http://my.site.com/"
-  };
+        cdn: "http://my.site.com/"
+      },
+      Snippets = require("./fixtures");
+
+  it('should emit "entry" event every time a replacement occurs', function(done) {
+    var job = new Job(globalConfig),
+        callback = sinon.spy();
+    job.start(Snippets.simple1).on('entry', callback);
+    setTimeout(function() {
+      expect(callback.called).to.be.true;
+      expect(callback.callCount).to.equal(2);
+      done();
+    }, 10);
+  });
   
-  describe('HTML Job', function() {
-    it('should replace absolute url string for source tags like <img> and <script>', function(done) {
-      var job = new HTMLJob(globalConfig);
-      
-      job.start(Snippets.image1).on("entry", function() {
-        
-      }).on('end', function(result) {
-        expect(result).to.be.ok;
-        var $ = cheerio.load(result);
-        expect($('img').attr('src')).to.equal(url.resolve(globalConfig.cdn, "pic.png"));
-        done();
-      });
+  it('should emit "end" event after finish', function(done) {
+    var job = new Job(globalConfig);
+    job.start(Snippets.simple1).on('end', function() {
+      done();
     });
+  });
+    
+  it('should emit ignore event every time a ignore rule is hit', function(done) {
+    var job = new Job(globalConfig),
+        callback = sinon.spy();
+    job.start(Snippets.simple2).on('ignore', callback);
+    setTimeout(function() {
+      expect(callback.callCount).to.equal(2);
+      done();
+    }, 10);
   });
   
 });

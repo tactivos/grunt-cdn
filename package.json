@@ -20,7 +20,8 @@
   "devDependencies": {
     "grunt": "~0.4.0",
     "chai": "~1.8.1",
-    "cheerio": "~0.12.4"
+    "cheerio": "~0.12.4",
+    "sinon": "~1.7.3"
   },
   "keywords": [
     "gruntplugin",
