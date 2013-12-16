@@ -16,6 +16,16 @@ describe('HTML Job', function() {
   
   describe('entry event', function() {
     
+    it('should emit every time we found a replacable tag', function(done) {
+      var job = new HTMLJob(globalConfig),
+          callback = sinon.spy();
+      job.start(Snippets.str3).on('entry', callback);
+      setTimeout(function() {
+        expect(callback.callCount).to.equal(2);
+        done();
+      }, 50);
+    });
+    
     it('should contain original and replaced url', function() {
       var job = new HTMLJob(globalConfig);
       job.start(Snippets.image1).on('entry', function(data) {
@@ -26,7 +36,7 @@ describe('HTML Job', function() {
     
   });
   
-  describe('end evnet', function() {
+  describe('end event', function() {
     it('should contain the result string', function(done) {
       var job = new HTMLJob(globalConfig);
     

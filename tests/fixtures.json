@@ -3,6 +3,9 @@
   "str1": "<img src='/' />",
   "simple1": "/link1\n/link2",
   "simple2": "http://http.is.ignored.com\nhttps://https.is.ignored.com",
-  
-  "str2": "<img src='a.gif'/><img src='/b.jpg'/><img src='b.gif'/>"
+  "str2": "<img src='a.gif'/><img src='/b.jpg'/><img src='b.gif'/>",
+  "str3": "<link href='/a.css' /><script src='/b.js' />",
+  "css1": "#a {background:url(a.gif)}; #b {background:url(/b.png)}",
+  "css2": "#a {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/a.png',sizingMethod='scale');}",
+  "css3": "#a {background:url(/a.png);}"
 }

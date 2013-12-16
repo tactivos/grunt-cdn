@@ -8,13 +8,13 @@ var CSSJob = function() {
 };
 util.inherits(CSSJob, Job);
 
-CSSJob.prototype.run = function (content) {
+CSSJob.prototype.run = function () {
   var self = this,
   getUrl = function (resource) {
     resource = resource.replace(/^['"]/, '').replace(/['"]$/, '');
-    return self.replace(resource/*, filename, relativeTo*/);
+    return self._replace(resource/*, filename, relativeTo*/);
   };
-  return content.replace(ParserConfig.regcss, function(attr, resource) {
+  return this.buffer.replace(ParserConfig.regcss, function(attr, resource) {
     var ret = getUrl(resource);
     if (!ret) {
       return attr;

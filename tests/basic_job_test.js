@@ -6,7 +6,7 @@ var expect = require('chai').expect,
     url = require('url'),
     Job = require('../tasks/lib/job');
 
-describe('Job', function() {
+describe('Job Basics', function() {
   
   var globalConfig = {
         cdn: "http://my.site.com/"
