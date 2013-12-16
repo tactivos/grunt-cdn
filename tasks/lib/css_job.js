@@ -1,7 +1,7 @@
 var Job = require('./job'),
     util = require('util'),
     ParserConfig = require('./parser_config'),
-    grunt = require('./grunt');
+    grunt = require('grunt');
 
 var CSSJob = function() {
   Job.apply(this, arguments);

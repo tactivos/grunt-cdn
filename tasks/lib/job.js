@@ -3,7 +3,7 @@ var EventEmitter = require('events').EventEmitter,
     path = require('path'),
     url = require('url'),
     grunt = require('grunt'),
-    ParseConfig = require('./parse_config');
+    ParseConfig = require('./parser_config');
 
 
 var Job = function(options) {
