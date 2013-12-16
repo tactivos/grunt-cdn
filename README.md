@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/RobinQu/grunt-cdn.png)](https://travis-ci.org/RobinQu/grunt-cdn.png)
+
+
 [Grunt][grunt] plugin for properly prepending a CDN url to those assets referenced with absolute paths (but not URLs)
 
 ## Getting Started
