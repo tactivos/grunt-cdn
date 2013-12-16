@@ -17,6 +17,7 @@ HTMLJob.prototype.run = function () {
     for (i=0; i<htmlsplitter.splitters.length; i++) {
       value = value.split(htmlsplitter.splitters[i]);
       for (j=1; j<value.length; j++) {
+        // console.log(value[j], value[j].match(htmlsplitter.rgx));
         value[j] = value[j].replace(htmlsplitter.rgx, replacer);
       }
       value = value.join(htmlsplitter.splitters[i]);

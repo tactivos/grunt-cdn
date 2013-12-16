@@ -21,7 +21,8 @@
     "grunt": "~0.4.0",
     "chai": "~1.8.1",
     "cheerio": "~0.12.4",
-    "sinon": "~1.7.3"
+    "sinon": "~1.7.3",
+    "underscore": "~1.5.2"
   },
   "keywords": [
     "gruntplugin",
