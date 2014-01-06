@@ -43,12 +43,24 @@ Job.prototype._replace = function (resource) {
   //   return resource;
   // }
 
-  if(ignorePath && resource.match(ignorePath)) {
-    self.emit("ignore", {
-      resource: resource,
-      reason: "ignore on purpose"
-    });
-    return resource;
+  if (ignorePath) {
+    if (Array.isArray(ignorePath)) {
+      for (var i = 0, len = ignorePath.length; i < len; ++i) {
+        if (resource.match(ignorePath[i])) {
+          self.emit("ignore", {
+            resource: resource,
+            reason: "ignore on purpose"
+          });
+          return resource;
+        }
+      }
+    } else if (resource.match(ignorePath)) {
+      self.emit("ignore", {
+        resource: resource,
+        reason: "ignore on purpose"
+      });
+      return resource;
+    }
   }
 
   var resourceUrl = url.parse(resource);
