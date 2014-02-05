@@ -15,7 +15,8 @@ module.exports = function(grunt) {
         engine = require('./lib/engine'),
         options = this.options(),
         key,
-        supportedTypes = Object.create(ParserConfig.supportedTypes);
+        supportedTypes = Object.create(ParserConfig.supportedTypes),
+        pendingJobs = 0;
 
     for(key in options.supportedTypes){
       if(options.supportedTypes.hasOwnProperty(key)) {
@@ -43,14 +44,19 @@ module.exports = function(grunt) {
         } else if (supportedTypes[type] === "css") {
           job = engine.css(options);
         }
+        pendingJobs++;
         job.start(content).on("entry", function (data) {
+          
           grunt.log.writeln('Changing ' + data.before.cyan + ' -> ' + data.after.cyan);
         }).on("ignore", function (data) {
           grunt.verbose.writeln("skipping " + data.resource, data.reason);
         }).on("end", function (result) {
           // write the contents to destination
           grunt.file.write(destfile, result);
-          done();
+          pendingJobs--;
+          if(pendingJobs === 0){
+            done();
+          }
         });
       });
     });

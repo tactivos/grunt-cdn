@@ -74,6 +74,7 @@ query strings. This task is really handy if you upload stuff from your CI to mak
 to developers.
 
 ## Release History
+* 0.3.3 Add support to dustjs compiled files
 * 0.1.3 Grunt 0.4 ready
 * 0.1.0 Initial Release
 
