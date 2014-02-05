@@ -1,4 +1,5 @@
 /*global describe, it */
+var grunt = require('grunt');
 
 var expect = require('chai').expect,
     cheerio = require('cheerio'),
@@ -64,6 +65,16 @@ describe('HTML Job', function() {
         }
         done();
       }, 40);
+    });
+
+    it('should replace src escaped like dustjs', function(done) {
+      var job = new HTMLJob(globalConfig);
+      var content = grunt.file.read(__dirname + '/fixtures/dust_template.js').toString();
+      job.start(content).on('end', function(result) {
+        expect(result).to.be.ok;
+        expect(result).to.equal(content.replace('/js/dummy-templates.js', globalConfig.cdn + 'js/dummy-templates.js'));
+        done();
+      });
     });
     
     //TODO: test other cases to ignore
