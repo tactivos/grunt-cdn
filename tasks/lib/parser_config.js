@@ -2,15 +2,15 @@ module.exports = {
   htmlsplitters: [
     {
       splitters: ['<img ', '<source ', '<script '],
-      rgx: new RegExp(/(?:src)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/(?:src)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*?\/?>/i)
     },
     {
       splitters: ['<link '],
-      rgx: new RegExp(/(?:href)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/(?:href)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*?\/?>/i)
     },
     {
       splitters: ['<script '],
-      rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*?\/?>/i)
     }
   ],
   regcss: new RegExp(/url\(([^)]+)\)/ig),
