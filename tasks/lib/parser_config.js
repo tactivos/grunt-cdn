@@ -10,7 +10,7 @@ module.exports = {
     },
     {
       splitters: ['<script '],
-      rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*?\/?>/i)
+      rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     }
   ],
   regcss: new RegExp(/url\(([^)]+)\)/ig),
