@@ -17,7 +17,10 @@ HTMLJob.prototype.run = function () {
     for (i=0; i<htmlsplitter.splitters.length; i++) {
       value = value.split(htmlsplitter.splitters[i]);
       for (j=1; j<value.length; j++) {
-        value[j] = value[j].replace(htmlsplitter.rgx, replacer);
+        var tagEnd = value[j].indexOf('>') + 1,
+          tag = value[j].substring(0, tagEnd),
+          rest = value[j].substring(tagEnd);                
+        value[j] = (tag.replace(htmlsplitter.rgx, replacer) + rest);
       }
       value = value.join(htmlsplitter.splitters[i]);
     }
