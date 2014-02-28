@@ -19,7 +19,13 @@ module.exports = function(grunt) {
 
     for(key in options.supportedTypes){
       if(options.supportedTypes.hasOwnProperty(key)) {
-        supportedTypes[key] = options.supportedTypes[key];
+        var metaType = options.supportedTypes[key];
+        var typename = typeof metaType;
+        if(typename === 'string') {
+          supportedTypes[key] = options.supportedTypes[key];
+        } else if(typename === 'function') {
+          supportedTypes[key] = engine.registerJob(metaType);
+        }
       }
     }
 
@@ -42,6 +48,8 @@ module.exports = function(grunt) {
           job = engine.html(options);
         } else if (supportedTypes[type] === "css") {
           job = engine.css(options);
+        } else if (typeof supportedTypes[type] === 'function'){
+          job = supportedTypes[type](options);
         }
         job.start(content).on("entry", function (data) {
           grunt.log.writeln('Changing ' + data.before.cyan + ' -> ' + data.after.cyan);

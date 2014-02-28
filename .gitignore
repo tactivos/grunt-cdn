@@ -17,3 +17,5 @@ dist
 static
 
 npm-debug.log
+*~
+*.swp
