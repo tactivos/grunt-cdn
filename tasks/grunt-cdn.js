@@ -15,11 +15,28 @@ module.exports = function(grunt) {
         engine = require('./lib/engine'),
         options = this.options(),
         key,
-        supportedTypes = Object.create(ParserConfig.supportedTypes);
+        liveJobCount = 0,
+        supportedTypes = Object.create(ParserConfig.supportedTypes),
+        jobSpawned = function() {
+          liveJobCount++;
+        },
+        jobStopped = function() {
+          liveJobCount--;
+          if(liveJobCount === 0) {
+            grunt.log.subhead('cdn:done');
+            done();
+          }
+        };
 
     for(key in options.supportedTypes){
       if(options.supportedTypes.hasOwnProperty(key)) {
-        supportedTypes[key] = options.supportedTypes[key];
+        var metaType = options.supportedTypes[key];
+        var typename = typeof metaType;
+        if(typename === 'string') {
+          supportedTypes[key] = options.supportedTypes[key];
+        } else if(typename === 'function') {
+          supportedTypes[key] = engine.registerJob(metaType);
+        }
       }
     }
 
@@ -42,15 +59,19 @@ module.exports = function(grunt) {
           job = engine.html(options);
         } else if (supportedTypes[type] === "css") {
           job = engine.css(options);
+        } else if (typeof supportedTypes[type] === 'function'){
+          job = supportedTypes[type](options);
         }
+        jobSpawned();
         job.start(content).on("entry", function (data) {
           grunt.log.writeln('Changing ' + data.before.cyan + ' -> ' + data.after.cyan);
         }).on("ignore", function (data) {
           grunt.verbose.writeln("skipping " + data.resource, data.reason);
+          jobStopped();
         }).on("end", function (result) {
           // write the contents to destination
           grunt.file.write(destfile, result);
-          done();
+          jobStopped();
         });
       });
     });
