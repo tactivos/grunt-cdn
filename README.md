@@ -73,6 +73,10 @@ As you can see we maintain the "container" pathname in this case, and we also ke
 query strings. This task is really handy if you upload stuff from your CI to make it transparent
 to developers.
 
+## Troubleshooting
+
+* grunt-cdn may not convert paths in HTML attributes that aren't quoted, causing tags like `<img src=/images/foo.jpg />` to miss the transform. Make sure you don't include unquoted attributes that need rewriting, and that you don't have preprocessors stripping attribute quotes. For instance, [htmlmin](https://github.com/gruntjs/grunt-contrib-htmlmin)'s default configuration in the Yeoman [webapp generator](https://github.com/yeoman/generator-webapp) has the `removeAttributeQuotes` property set to `true`. Flip this to false if you're having trouble with grunt-cdn working on your HTML.
+
 ## Release History
 * 0.1.3 Grunt 0.4 ready
 * 0.1.0 Initial Release
