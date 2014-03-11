@@ -15,7 +15,8 @@ module.exports = function(grunt) {
         engine = require('./lib/engine'),
         options = this.options(),
         key,
-        supportedTypes = Object.create(ParserConfig.supportedTypes);
+        supportedTypes = Object.create(ParserConfig.supportedTypes),
+        activeJobs = 0;
 
     for(key in options.supportedTypes){
       if(options.supportedTypes.hasOwnProperty(key)) {
@@ -38,6 +39,9 @@ module.exports = function(grunt) {
 
         grunt.log.subhead('cdn:' + type + ' - ' + filepath);
 
+        // Incrementing counter of active jobs
+        activeJobs++;
+          
         if (supportedTypes[type] === "html") {
           job = engine.html(options);
         } else if (supportedTypes[type] === "css") {
@@ -50,7 +54,11 @@ module.exports = function(grunt) {
         }).on("end", function (result) {
           // write the contents to destination
           grunt.file.write(destfile, result);
-          done();
+            
+          activeJobs--; // The job is done
+          if (activeJobs === 0) { // Checking if all jobs are done
+            done();
+          }
         });
       });
     });
