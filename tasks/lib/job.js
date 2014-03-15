@@ -64,8 +64,8 @@ Job.prototype._replace = function (resource) {
   }
 
   var resourceUrl = url.parse(resource);
-  
-  if(resourceUrl.protocol === "about:") {
+
+  if(resourceUrl.protocol === "about:" || resourceUrl.protocol === "data:") {
     return resource;
   }
 
