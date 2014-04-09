@@ -26,6 +26,8 @@ Then specify your config:
                 flatten: false,
                 /** @optional  - if provided will be added to the default supporting types */
                 supportedTypes: { 'phtml': 'html' }
+                /** @optional  - ingore path(s) (regex or array of regexp) */
+                ignorePath: '#default#VML'
             },
             dist: {
                 /** @required  - string (or array of) including grunt glob variables */
