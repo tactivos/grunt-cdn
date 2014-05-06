@@ -36,7 +36,8 @@ module.exports = function(grunt) {
             soy: 'html',
             ejs: 'html',
             hbs: 'html',
-            less: 'less'
+            less: 'less',
+            php: 'html'
         };
 
         for(var key in options.supportedTypes){
