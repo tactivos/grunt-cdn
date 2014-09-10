@@ -65,7 +65,7 @@ Job.prototype._replace = function (resource) {
 
   var resourceUrl = url.parse(resource);
 
-  if(resourceUrl.protocol === "about:" || resourceUrl.protocol === "data:") {
+  if(resourceUrl.protocol === "about:" || resourceUrl.protocol === "data:" || !resourceUrl.pathname) {
     return resource;
   }
 
@@ -120,7 +120,7 @@ Job.prototype._replace = function (resource) {
   if (relativeTo.match(/^\/\/\w/)) {
     src = src.replace(/^\/(\w)/, '\/\/$1');
   }
-  
+
   self.emit('entry', {
     before: resourceUrl.pathname,
     after: src
