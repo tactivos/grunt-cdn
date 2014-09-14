@@ -25,6 +25,9 @@ module.exports = function(grunt) {
     }
 
     files.forEach(function(file) {
+      if (file.src) {
+        done();
+      }
       file.src.forEach(function (filepath) {
         var type = path.extname(filepath).replace(/^\./, ''),
             filename = path.basename(filepath),
