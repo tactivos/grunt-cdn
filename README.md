@@ -28,10 +28,12 @@ Then specify your config:
                 supportedTypes: { 'phtml': 'html' }
             },
             dist: {
-                /** @required  - string (or array of) including grunt glob variables */
-                src: ['./static/*.html', './static/*.css', './static/*.soy'],
-                /** @optional  - if provided a copy will be stored without modifying original file */
-                dest: './dist/static/'
+                /** @required  - gets sources here, may be same as dest  */
+                cwd: './dist/static/',
+                /** @required  - puts results here with respect to relative paths  */
+                dest: './dist/static/',
+                /** @required  - files to process */
+                src: ['index.html', '*.css', '{,*/}*.html', '{,**/}*.html'],
             }
         }
     });
