@@ -25,11 +25,17 @@ module.exports = function(grunt) {
     }
 
     files.forEach(function(file) {
+      if(!('dest' in file) || !('cwd' in file)) {
+        var msg = 'Configuration error: please set "cwd" and "dest" properly';
+        grunt.log.error(msg);
+        throw msg;
+      }
+
       file.src.forEach(function (filepath) {
-        var type = path.extname(filepath).replace(/^\./, ''),
-            filename = path.basename(filepath),
-            destfile = (file.dest && file.dest !== filepath) ? path.join(file.dest, filename) : filepath,
-            content = grunt.file.read(filepath).toString(),
+        var full_path = path.join(file.cwd, filepath),
+            type = path.extname(filepath).replace(/^\./, ''),
+            destfile = path.join(file.dest, filepath),
+            content = grunt.file.read(full_path).toString(),
             job; // sometimes css is interpreted as object
 
         if (!supportedTypes[type]) { //next
