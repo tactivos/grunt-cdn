@@ -35,13 +35,13 @@ Job.prototype._replace = function (resource) {
 
   // absolute urls will not be passed into this function
   // skip those absolute urls
-  // if (resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
-  //   self.emit("ignore", {
-  //     resource: resource,
-  //     reason: "ignored on purpose"
-  //   });
-  //   return resource;
-  // }
+   if (resource.match(/^https?:\/\//i) || resource.match(/^\/\//) || resource.match(/^data:/i)) {
+     self.emit("ignore", {
+       resource: resource,
+       reason: "ignored on purpose"
+     });
+     return resource;
+   }
 
   if (ignorePath) {
     if (Array.isArray(ignorePath)) {
