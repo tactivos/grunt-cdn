@@ -8,10 +8,14 @@ module.exports = {
       splitters: ['<link '],
       rgx: new RegExp(/(?:href)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     },
-    // {
-    //   splitters: ['<meta '],
-    //   rgx: new RegExp(/(?:content)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
-    // },
+    {
+      splitters: ['<video'],
+      rgx: new RegExp(/(?:poster)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+    },
+    {
+      splitters: ['<meta '],
+      rgx: new RegExp(/(?:content)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+    },
     {
       splitters: ['<script '],
       rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
