@@ -2,7 +2,7 @@ module.exports = {
   htmlsplitters: [
     {
       splitters: ['<img ', '<source ', '<script ', '<video ', '<audio '],
-      rgx: new RegExp(/(?:(src|data-original))=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      rgx: new RegExp(/(?:src)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     },
     {
       splitters: ['<link '],
@@ -15,6 +15,10 @@ module.exports = {
     {
       splitters: ['<script '],
       rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+    },
+    {
+      splitters: ['<img '],
+      rgx: new RegExp(/(?:data-original)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     }
   ],
   regcss: new RegExp(/url\(([^)]+)\)/ig),
