@@ -36,7 +36,7 @@ Job.prototype._replace = function (resource) {
   }
   if(typeof this.options.cdn == 'object'){
       if(!this.options._cur){
-        this.options._cur==0;	
+        this.options._cur=0;	
       }
       else{
         this.options._cur+=1;
