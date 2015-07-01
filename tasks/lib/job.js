@@ -35,7 +35,7 @@ Job.prototype._replace = function (resource) {
       relativeTo = this.options.cdn;
   }
   if(typeof this.options.cdn == 'object'){
-      if(!this.options._cur){
+      if(this.options._cur==null){
         this.options._cur=0;	
       }
       else{
