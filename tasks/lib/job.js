@@ -42,7 +42,7 @@ Job.prototype._replace = function (resource) {
         this.options._cur+=1;
       }
       var _len=this.options.cdn.length;
-      relativeTo=this.options.cdn[_cur%_len];
+      relativeTo=this.options.cdn[this.options._cur%_len];
   }
 
   // absolute urls will not be passed into this function
