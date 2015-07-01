@@ -30,8 +30,20 @@ Job.prototype.end = function () {
 Job.prototype._replace = function (resource) {
   var options = this.options,
       self = this,
-      ignorePath = this.options.ignorePath,
+      ignorePath = this.options.ignorePath;
+  if(typeof this.options.cdn == 'string'){
       relativeTo = this.options.cdn;
+  }
+  if(typeof this.options.cdn == 'object'){
+      if(!this.options._cur){
+        this.options._cur==0;	
+      }
+      else{
+        this.options._cur+=1;
+      }
+      var _len=this.options.cdn.length;
+      relativeTo=this.options.cdn[_cur%_len];
+  }
 
   // absolute urls will not be passed into this function
   // skip those absolute urls
