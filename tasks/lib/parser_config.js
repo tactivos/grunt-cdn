@@ -20,6 +20,10 @@ module.exports = {
       splitters: ['<img '],
       rgx: new RegExp(/(?:data-original)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     }
+    {
+      splitters: ['<video '],
+      rgx: new RegExp(/(?:poster)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+    }
   ],
   regcss: new RegExp(/url\(([^)]+)\)/ig),
 
