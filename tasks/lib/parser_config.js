@@ -16,10 +16,14 @@ module.exports = {
       splitters: ['<script '],
       rgx: new RegExp(/data-main=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     },
-    {
+    {{
       splitters: ['<img '],
       rgx: new RegExp(/(?:data-original)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
     },
+      splitters: ['<span '],
+      rgx: new RegExp(/(?:data-original)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+    },
+	
     {
       splitters: ['<video '],
       rgx: new RegExp(/(?:poster)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
