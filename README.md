@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/tactivos/grunt-cdn.svg?branch=master)](https://travis-ci.org/tactivos/grunt-cdn)
+[![npm version](https://badge.fury.io/js/grunt-cdn.svg)](https://badge.fury.io/js/grunt-cdn)
 
 [Grunt][grunt] plugin for properly prepending a CDN url to those assets referenced with absolute paths (but not URLs)
 
