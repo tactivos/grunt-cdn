@@ -25,7 +25,7 @@ Then specify your config:
                 /** @optional  - if provided both absolute and relative paths will be converted */
                 flatten: false,
                 /** @optional  - if provided will be added to the default supporting types */
-                supportedTypes: { 'phtml': 'html' }
+                supportedTypes: { 'phtml': 'html' },
                 /** @optional  - ingore path(s) (regex or array of regexp) */
                 ignorePath: '#default#VML'
             },
