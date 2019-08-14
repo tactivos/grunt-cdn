@@ -1,8 +1,8 @@
 module.exports = {
   htmlsplitters: [
     {
-      splitters: ['<img ', '<source ', '<script ', '<video ', '<audio '],
-      rgx: new RegExp(/(?:src)=['"](?!\w*?:?\/\/)([^'"\{]+)['"].*\/?>/i)
+      splitters: ['<img ', '<source ', '<script', '<video ', '<audio '],
+      rgx: new RegExp(/(?:src)=['"](?!\w*?:?\/\/)([^'"\{]+)['"](\s|\r|\n|\r\n|\t|.)*\/?>/i)
     },
     {
       splitters: ['<link '],
